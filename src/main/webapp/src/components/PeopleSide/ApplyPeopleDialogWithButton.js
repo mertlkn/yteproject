@@ -19,6 +19,7 @@ export default function ApplyPeopleDialogWithButton(props) {
     const [tcKimlikNo,setTcKimlikNo] = useState("");
     const [email,setEmail] = useState("");
     const [message,setMessage] = useState("");
+    const [question,setQuestion] = useState("");
     const [failed,setFailed] = useState(false);
     const [clicked,setClicked] = useState(false);
     const handleClickOpen = () => {
@@ -48,6 +49,16 @@ export default function ApplyPeopleDialogWithButton(props) {
             }
             setMessage(response.data["message"])
         });
+    }
+
+    function handleQuestionSubmit(eventName) {
+        axios.post(eventName+"/askQuestions",{
+            name:name,
+            surname:surname,
+            tcKimlikNo:tcKimlikNo,
+            email:email,
+            question:question
+        })
     }
 
     return (
@@ -113,6 +124,22 @@ export default function ApplyPeopleDialogWithButton(props) {
                 {
                 clicked?(failed?null:<SurveyWithButton/>):null
                 }
+                {clicked?(failed?null:
+                    <div>
+                    <TextField
+                        margin="dense"
+                        id="question"
+                        label="Do you have a question?"
+                        fullWidth
+                        value={question}
+                        onChange={event => setQuestion(event.target.value)}
+                    />
+                        <Button onClick={() => {
+                            handleQuestionSubmit(props.eventName)
+                        }} color="primary">
+                            Submit Question
+                        </Button>
+                </div>):null}
             </Dialog>
         </div>
     );

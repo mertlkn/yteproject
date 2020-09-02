@@ -8,22 +8,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Button from "@material-ui/core/Button";
 import axios from "axios";
-import ListAllEventsAdminWithButton from "./ListAllEventsAdminWithButton";
-import ListApplicants from "../ListApplicants/ListApplicants";
-import ListApplicantsWithButton from "../ListApplicants/ListApplicantsWithButton";
-import NewEventWithButton from "../NewEventWithButton";
-import UpdateEventWithButton from "../UpdateEventWithButton";
-import ListQuestionsWithButton from "../ListQuestions/ListQuestionsWithButton";
 
 const columns = [
-    { id: 'eventName', label: 'Name', minWidth: 170 },
-    { id: 'eventStartTime', label: 'Start Date', minWidth: 100 },
-    { id: 'eventEndTime', label: 'End Date', minWidth: 100 },
-    { id: 'quota', label: 'Quota', minWidth: 100 },
-    { id: 'latitude', label: 'Latitude', minWidth: 100 },
-    { id: 'longitude', label: 'Longitude', minWidth: 100 },
+    { id: 'eventName', label: 'Event Name', minWidth: 170 },
+    { id: 'name', label: 'Name', minWidth: 100 },
+    { id: 'surname', label: 'Surname', minWidth: 100 },
+    { id: 'tcKimlikNo', label: 'TC Kimlik No', minWidth: 100 },
+    { id: 'email', label: 'Email', minWidth: 100 },
+    { id: 'question', label: 'Question', minWidth: 100 },
 ];
 
 
@@ -36,7 +29,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ListAllEventsAdmin(props) {
+export default function ListQuestions(props) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -52,18 +45,14 @@ export default function ListAllEventsAdmin(props) {
     const [data,setData] = useState([]);
 
     useEffect(() => {
-        axios.get("/getEvents",{
+        axios.get(props.eventName + "/getQuestions",{
             "headers": {
                 "Authorization":"Bearer "+props.token
             }
         }).then(response => {
             setData(response.data);
         })
-    },[data])
-
-    function handleDelete(eventName) {
-        axios.delete("/deleteEvent"+"?eventName="+eventName);
-    }
+    },[])
 
 
     return (
@@ -87,24 +76,13 @@ export default function ListAllEventsAdmin(props) {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                     {columns.map((column) => {
-                                        const value = row[column.id];
+                                        const value = column.id=="eventName"?props.eventName:row[column.id];
                                         return (
                                             <TableCell key={column.id}>
                                                 {value}
                                             </TableCell>
                                         );
                                     })}
-                                    <UpdateEventWithButton
-                                        eventName={row["eventName"]}
-                                        eventStartTime={row["eventStartTime"]}
-                                        eventEndTime={row["eventEndTime"]}
-                                        quota={row["quota"]}
-                                        latitude={row["latitude"]}
-                                        longitude={row["longitude"]}
-                                    />
-                                    <Button variant="contained" color="primary" onClick={() => handleDelete(row["eventName"])}>Delete</Button>
-                                    <ListApplicantsWithButton eventName={row["eventName"]}/>
-                                    <ListQuestionsWithButton eventName={row["eventName"]} token={props.token}/>
                                 </TableRow>
                             );
                         })}
