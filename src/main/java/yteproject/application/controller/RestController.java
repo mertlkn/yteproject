@@ -17,11 +17,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import yteproject.application.dtos.*;
 import yteproject.application.entities.Events;
+import yteproject.application.entities.Questions;
 import yteproject.application.mapper.EventsMapper;
+import yteproject.application.mapper.QuestionsMapper;
 import yteproject.application.messages.MessageResponse;
 import yteproject.application.services.EmailServiceImpl;
 import yteproject.application.services.EventService;
 import yteproject.application.services.PeopleService;
+import yteproject.application.services.QuestionsService;
 
 import javax.activation.DataSource;
 import javax.imageio.ImageIO;
@@ -42,9 +45,11 @@ public class RestController {
     private final PeopleService peopleService;
     private final EventService eventService;
     private final EventsMapper eventsMapper;
+    private final QuestionsMapper questionsMapper;
     @Autowired
     private JavaMailSender javaMailSender;
     private final EmailServiceImpl emailService;
+    private final QuestionsService questionsService;
 
     @PostMapping("/addEvent")
     @PreAuthorize("permitAll()")
@@ -181,6 +186,18 @@ public class RestController {
 
     }
 
+    @PostMapping("/{eventName}/askQuestions")
+    @PreAuthorize("permitAll()")
+    public MessageResponse askQuestion(@PathVariable String eventName, @RequestBody QuestionsDto questions) {
+        Questions question=questionsMapper.mapToQuestions(questions);
+        return questionsService.askQuestion(eventName,question);
+    }
+
+    @GetMapping("/{eventName}/getQuestions")
+    @PreAuthorize("permitAll()")
+    public List<QuestionsDto> getQuestions(@PathVariable String eventName) {
+        return questionsService.getQuestions(eventName);
+    }
 
 
 

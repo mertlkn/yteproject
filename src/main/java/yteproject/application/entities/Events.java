@@ -27,6 +27,9 @@ public class Events extends AbstractEntity{
     private LocalDateTime eventEndTime;
     @ManyToMany(mappedBy = "appliedEvents",cascade = CascadeType.ALL)
     private Set<People> participants = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "event_name")
+    private Set<Questions> questions = new HashSet<>();
     private Long quota;
     private Double latitude;
     private Double longitude;
