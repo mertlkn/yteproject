@@ -11,6 +11,7 @@ import CustomAlerts from "../OtherComponents/CustomAlerts";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import SurveyWithButton from "./SurveyWithButton";
+import MyQRCode from "./MyQRCode";
 
 export default function ApplyPeopleDialogWithButton(props) {
     const [open, setOpen] = useState(false);
@@ -46,6 +47,7 @@ export default function ApplyPeopleDialogWithButton(props) {
                     'surname': surname,
                     'tcKimlikNo': tcKimlikNo
                 }))
+                axios.get("http://localhost:8081/email?to="+email+"&eventName="+eventName+"&name="+name+"&surname="+surname+"&tcKimlikNo="+tcKimlikNo).then(console.log("email sent"));
             }
             setMessage(response.data["message"])
         });
@@ -69,8 +71,15 @@ export default function ApplyPeopleDialogWithButton(props) {
             <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Information</DialogTitle>
                 <DialogContent>
+                    {
+                    clicked&&!failed?
+                        <div>
+                            Your QR Code has been sent to your email!
+                        <MyQRCode eventName={props.eventName} name={name} surname={surname} tcKimlikNo={tcKimlikNo}/>
+                        </div>:
+                    <div>
                     <DialogContentText>
-                        To register for this event plese enter your information:
+                        To register for this event please enter your information:
                     </DialogContentText>
                     <TextField
                         autoFocus
@@ -106,23 +115,27 @@ export default function ApplyPeopleDialogWithButton(props) {
                         value={email}
                         onChange={event => setEmail(event.target.value)}
                     />
+                    </div>}
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
+                        {clicked&&!failed?"OK":"Cancel"}
                     </Button>
+                    {
+                        clicked&&!failed?null:
                     <Button type="submit" onClick={() => {
                         setClicked(true);
                         handleSubmit(props.eventName);
                     }} color="primary">
                         Apply
-                    </Button>
+                    </Button>}
                 </DialogActions>
                 {
                 clicked?<CustomAlerts messageType={failed?"error":"success"} message={message}/>:null
                 }
                 {
-                clicked?(failed?null:<SurveyWithButton/>):null
+                clicked?(failed?null:<SurveyWithButton eventName={props.eventName}/>):null
                 }
                 {clicked?(failed?null:
                     <div>

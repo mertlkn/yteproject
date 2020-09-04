@@ -34,9 +34,15 @@ public class PeopleService {
 //            peopleRepository.save(people);
 //            return peopleDto;
 //        }
-        if(eventsRepository.findByEventName(eventName).getParticipants().stream().noneMatch(people -> people.getTcKimlikNo().equals(peopleDto.getTcKimlikNo()))) {
+        boolean tcIsUnique=eventsRepository.findByEventName(eventName).getParticipants().stream().noneMatch(people -> people.getTcKimlikNo().equals(peopleDto.getTcKimlikNo()));
+        if(tcIsUnique) {
+            Events event=eventsRepository.findByEventName(eventName);
+            if(event.getQuota()==0) {
+                return new MessageResponse("Quota is full!", MessageType.ERROR);
+            }
+            event.setQuota(event.getQuota()-1);
             People people = peopleMapper.mapToPeople(peopleDto);
-            people.getAppliedEvents().add(eventsRepository.findByEventName(eventName));
+            people.getAppliedEvents().add(event);
             peopleRepository.save(people);
             return new MessageResponse("Successfully applied", MessageType.SUCCESS);
         }

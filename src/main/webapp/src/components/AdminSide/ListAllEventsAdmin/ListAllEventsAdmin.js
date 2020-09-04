@@ -16,6 +16,7 @@ import ListApplicantsWithButton from "../ListApplicants/ListApplicantsWithButton
 import NewEventWithButton from "../NewEventWithButton";
 import UpdateEventWithButton from "../UpdateEventWithButton";
 import ListQuestionsWithButton from "../ListQuestions/ListQuestionsWithButton";
+import SurveyResultsWithButton from "../SurveyResultsWithButton";
 
 const columns = [
     { id: 'eventName', label: 'Name', minWidth: 170 },
@@ -105,6 +106,7 @@ export default function ListAllEventsAdmin(props) {
                                     <Button variant="contained" color="primary" onClick={() => handleDelete(row["eventName"])}>Delete</Button>
                                     <ListApplicantsWithButton eventName={row["eventName"]}/>
                                     <ListQuestionsWithButton eventName={row["eventName"]} token={props.token}/>
+                                    <SurveyResultsWithButton eventName={row["eventName"]}/>
                                 </TableRow>
                             );
                         })}

@@ -30,12 +30,11 @@ public class Events extends AbstractEntity{
     @OneToMany
     @JoinColumn(name = "event_name")
     private Set<Questions> questions = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "event_name")
+    private Set<Survey> surveys = new HashSet<>();
     private Long quota;
     private Double latitude;
     private Double longitude;
-    @AssertTrue
-    public boolean isMaxQuota() {
-        return participants.stream().count()<=quota;
-    }
 
 }

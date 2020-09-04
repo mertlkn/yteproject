@@ -18,13 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import yteproject.application.dtos.*;
 import yteproject.application.entities.Events;
 import yteproject.application.entities.Questions;
+import yteproject.application.entities.Survey;
 import yteproject.application.mapper.EventsMapper;
 import yteproject.application.mapper.QuestionsMapper;
 import yteproject.application.messages.MessageResponse;
-import yteproject.application.services.EmailServiceImpl;
-import yteproject.application.services.EventService;
-import yteproject.application.services.PeopleService;
-import yteproject.application.services.QuestionsService;
+import yteproject.application.services.*;
 
 import javax.activation.DataSource;
 import javax.imageio.ImageIO;
@@ -50,6 +48,7 @@ public class RestController {
     private JavaMailSender javaMailSender;
     private final EmailServiceImpl emailService;
     private final QuestionsService questionsService;
+    private final SurveyService surveyService;
 
     @PostMapping("/addEvent")
     @PreAuthorize("permitAll()")
@@ -199,7 +198,19 @@ public class RestController {
         return questionsService.getQuestions(eventName);
     }
 
+    @GetMapping("/{eventName}/surveyAverages")
+    @PreAuthorize("permitAll()")
+    @ResponseBody
+    public SurveyDto getSurveyAverages(@PathVariable String eventName) {
+        return surveyService.getSurveyAverages(eventName);
+    }
 
+    @PostMapping("/{eventName}/surveyAnswer")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin
+    public MessageResponse answerSurvey(@PathVariable String eventName, @RequestBody SurveyDto surveyDto) {
+        return surveyService.answerSurvey(eventName,new Survey(surveyDto.getDate(),surveyDto.getContent()));
+    }
 
 
 

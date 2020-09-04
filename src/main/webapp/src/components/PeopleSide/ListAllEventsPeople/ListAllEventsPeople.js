@@ -83,7 +83,13 @@ export default function ListAllEventsPeople(props) {
                                             </TableCell>
                                         );
                                     })}
-                                    <ApplyPeopleDialogWithButton stompClient={props.stompClient} dataFromServer={props.dataFromServer} setDataFromServer={props.setDataFromServer} eventName={row["eventName"]}/>
+                                    {
+                                        row["quota"]==0?"Sorry event is full!":
+                                        <ApplyPeopleDialogWithButton stompClient={props.stompClient}
+                                                                     dataFromServer={props.dataFromServer}
+                                                                     setDataFromServer={props.setDataFromServer}
+                                                                     eventName={row["eventName"]}/>
+                                    }
                                     <CustomMapWithButton lat={row["latitude"]} lng={row["longitude"]}/>
                                 </TableRow>
                             );
