@@ -213,6 +213,12 @@ public class RestController {
     }
 
 
+    @GetMapping("/{eventName}/giveaway")
+    @PreAuthorize("permitAll()")
+    @CrossOrigin
+    public PeopleDto giveaway(@PathVariable String eventName) {
+        return eventService.giveaway(eventName);
+    }
 
 
 

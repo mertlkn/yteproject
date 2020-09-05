@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import yteproject.application.dtos.EventsDto;
 import yteproject.application.dtos.EventsWithApplicantsCount;
 import yteproject.application.dtos.EventsWithApplicationDates;
+import yteproject.application.dtos.PeopleDto;
 import yteproject.application.entities.Events;
 import yteproject.application.mapper.EventsMapper;
+import yteproject.application.mapper.PeopleMapper;
 import yteproject.application.messages.MessageResponse;
 import yteproject.application.messages.MessageType;
 import yteproject.application.repositories.EventsRepository;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,6 +33,7 @@ public class EventService {
     private final EventsRepository eventsRepository;
     private final PeopleRepository peopleRepository;
     private final EventsMapper eventsMapper;
+    private final PeopleMapper peopleMapper;
     public MessageResponse addEvent(Events events) {
         var exists = eventsRepository.findByEventName(events.getEventName());
         if(exists == null )  eventsRepository.save(events);
@@ -97,4 +101,9 @@ public class EventService {
         return eventsWithApplicantsCount;
     }
 
+    public PeopleDto giveaway(String eventName) {
+        var participants=eventsRepository.findByEventName(eventName).getParticipants().stream().collect(Collectors.toList());
+        int random= ThreadLocalRandom.current().nextInt(0,participants.size());
+        return peopleMapper.mapToPeopleDto(participants.get(random));
+    }
 }

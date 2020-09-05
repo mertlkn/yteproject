@@ -17,6 +17,7 @@ import NewEventWithButton from "../NewEventWithButton";
 import UpdateEventWithButton from "../UpdateEventWithButton";
 import ListQuestionsWithButton from "../ListQuestions/ListQuestionsWithButton";
 import SurveyResultsWithButton from "../SurveyResultsWithButton";
+import GiveawayWithButton from "../../OtherComponents/GivewayWithButton";
 
 const columns = [
     { id: 'eventName', label: 'Name', minWidth: 170 },
@@ -107,6 +108,7 @@ export default function ListAllEventsAdmin(props) {
                                     <ListApplicantsWithButton eventName={row["eventName"]}/>
                                     <ListQuestionsWithButton eventName={row["eventName"]} token={props.token}/>
                                     <SurveyResultsWithButton eventName={row["eventName"]}/>
+                                    <GiveawayWithButton eventName={row["eventName"]}/>
                                 </TableRow>
                             );
                         })}
