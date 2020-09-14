@@ -45,7 +45,7 @@ export default function ListAllEventsAdminWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
+            <Button variant="outlined" color="#0A1616" onClick={handleOpen}>
                 List All Events
             </Button>
             <Modal

@@ -65,7 +65,7 @@ export default function ApplyPeopleDialogWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={handleClickOpen}>
                 Apply for this event
             </Button>
             <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit} aria-labelledby="form-dialog-title">

@@ -45,7 +45,7 @@ export default function SideBar(props) {
 
     const list = (anchor) => (
         <div style={{
-            backgroundImage:"url('https://wallpapercave.com/wp/1hkoR6L.jpg')",
+            backgroundColor:"#E74344",
             backgroundSize:"cover",
             backgroundRepeat:"no-repeat",
             backgroundPosition:"center",
@@ -96,7 +96,7 @@ export default function SideBar(props) {
         <div>
             {['right'].map((anchor) => (
                 <React.Fragment>
-                    <Button variant="contained" color="primary" onClick={toggleDrawer(anchor, true)}>ADMIN CONTROLS</Button>
+                    <Button variant="contained" style={{float:"right",backgroundColor:"#E74344"}} onClick={toggleDrawer(anchor, true)}>ADMIN CONTROLS</Button>
                     <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
                         {list(anchor)}
                     </Drawer>

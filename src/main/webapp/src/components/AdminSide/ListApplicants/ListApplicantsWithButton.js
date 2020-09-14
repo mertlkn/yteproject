@@ -62,7 +62,7 @@ export default function ListApplicantsWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={handleClickOpen}>
                 Applicants
             </Button>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>

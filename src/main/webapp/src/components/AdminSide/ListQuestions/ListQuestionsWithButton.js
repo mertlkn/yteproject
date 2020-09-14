@@ -44,7 +44,7 @@ export default function ListQuestionsWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
+            <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={handleOpen}>
                 List questions
             </Button>
             <Modal

@@ -18,7 +18,7 @@ export default function CustomMapWithButton(props) {
     };
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={handleClickOpen}>
                 Map
             </Button>
             <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title">

@@ -45,7 +45,7 @@ export default function ListAllEventsPeopleWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
+            <Button variant="contained" style={{marginTop:"20px",backgroundColor:"#E74344"}} onClick={handleOpen}>
                 List All Events
             </Button>
             <Modal

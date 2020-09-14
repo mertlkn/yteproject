@@ -34,7 +34,7 @@ export default function LoginWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant={"outlined"} color="#0A1616"  onClick={handleClickOpen}>
                 Login
             </Button>
             <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit} aria-labelledby="form-dialog-title">

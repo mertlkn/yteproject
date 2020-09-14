@@ -70,14 +70,14 @@ export default function ListAllEventsAdmin(props) {
 
     return (
         <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
+            <TableContainer className={classes.container} style={{backgroundColor:"#E74344"}}>
+                <Table stickyHeader aria-label="sticky table" style={{backgroundColor:"#E74344"}}>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
-                                    style={{ minWidth: column.minWidth }}
+                                    style={{ minWidth: column.minWidth ,backgroundColor:"#E74344"}}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -104,7 +104,7 @@ export default function ListAllEventsAdmin(props) {
                                         latitude={row["latitude"]}
                                         longitude={row["longitude"]}
                                     />
-                                    <Button variant="contained" color="primary" onClick={() => handleDelete(row["eventName"])}>Delete</Button>
+                                    <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={() => handleDelete(row["eventName"])}>Delete</Button>
                                     <ListApplicantsWithButton eventName={row["eventName"]}/>
                                     <ListQuestionsWithButton eventName={row["eventName"]} token={props.token}/>
                                     <SurveyResultsWithButton eventName={row["eventName"]}/>
@@ -116,6 +116,7 @@ export default function ListAllEventsAdmin(props) {
                 </Table>
             </TableContainer>
             <TablePagination
+                style={{backgroundColor:"#E74344"}}
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={data.length}

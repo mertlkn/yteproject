@@ -1,3 +1,19 @@
 .inline-block-list { /* ul or ol with this class */
     font-size: 0;
 }
+
+.color1 {
+    color: #2ec1ac;
+}
+
+.color2 {
+    color: #3e978b;
+}
+
+.color3 {
+    color: #d2e603;
+}
+
+.color4 {
+    color: #eff48e;
+}

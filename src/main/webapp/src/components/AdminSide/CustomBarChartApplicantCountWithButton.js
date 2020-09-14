@@ -62,7 +62,7 @@ export default function CustomBarChartApplicantCountWithButton() {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant={"outlined"} color="#0A1616"  onClick={handleClickOpen}>
                 Applicants Count Chart
             </Button>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth={true}>

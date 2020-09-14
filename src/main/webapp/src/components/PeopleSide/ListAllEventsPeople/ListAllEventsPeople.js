@@ -18,7 +18,7 @@ const columns = [
     { id: 'eventName', label: 'Name', minWidth: 170 },
     { id: 'eventStartTime', label: 'Start Date', minWidth: 100 },
     { id: 'eventEndTime', label: 'End Date', minWidth: 100 },
-    { id: 'quota', label: 'Quota', minWidth: 100 }
+    { id: 'quota', label: 'Quota', minWidth: 100}
 
 ];
 
@@ -57,14 +57,15 @@ export default function ListAllEventsPeople(props) {
 
     return (
         <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
+            <TableContainer className={classes.container} style={{backgroundColor:"#E74344"}}>
+                <Table stickyHeader aria-label="sticky table" style={{backgroundColor:"#E74344"}}>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
+
                                     key={column.id}
-                                    style={{ minWidth: column.minWidth }}
+                                    style={{ backgroundColor:"#E74344", minWidth: column.minWidth }}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -98,6 +99,7 @@ export default function ListAllEventsPeople(props) {
                 </Table>
             </TableContainer>
             <TablePagination
+                style={{backgroundColor:"#E74344"}}
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={data.length}

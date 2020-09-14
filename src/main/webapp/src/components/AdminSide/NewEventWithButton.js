@@ -49,7 +49,7 @@ export default function NewEventWithButton() {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant={"outlined"} color="#0A1616"  onClick={handleClickOpen}>
                 New Event
             </Button>
             <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title" onSubmit={<SuccessDialog/>}>

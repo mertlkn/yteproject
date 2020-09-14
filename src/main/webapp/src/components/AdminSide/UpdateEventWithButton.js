@@ -49,7 +49,7 @@ export default function UpdateEventWithButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{backgroundColor:"#E74344"}} onClick={handleClickOpen}>
                 Update Event
             </Button>
             <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title" onSubmit={<SuccessDialog/>}>
