@@ -1,11 +1,5 @@
 import React, {useEffect} from 'react';
 import ListAllEventsPeopleWithButton from "./components/PeopleSide/ListAllEventsPeople/ListAllEventsPeopleWithButton";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SideBar from "./components/AdminSide/SideBar";
 import SockJS from "sockjs-client";
@@ -16,9 +10,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-
+import backgroundImg from '../src/background.png';
 
 function App() {
     const [token, setToken] = React.useState("");
@@ -58,7 +51,8 @@ function App() {
 
     return (
         <body className="App" style={{
-            backgroundImage: "url('https://cdn.hipwallpaper.com/i/8/48/RJFBiH.png')",
+          //  backgroundImage: "url('https://cdn.hipwallpaper.com/i/8/48/RJFBiH.png')",
+            backgroundImage: "url('../src/background.png')",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -94,12 +88,6 @@ function App() {
                 </Button>
             </DialogActions>
         </Dialog>
-        {/*<CustomMapWithButton lat={45.4211} lng={-75.6903}/>*/}
-        {/*/!*<ListAllEventsAdminWithButton token={token}/>*!/*/}
-        {/*<MyQRCode eventName={"etkinlik 1"} name={"Mert"} surname={"Alkan"} tcKimlikNo={"11111111110"}/>*/}
-        {/*<GoogleApiWrapper/>*/}
-        {/*{<Ws/>}*/}
-        {/*<SurveyWithButton/>*/}
         </body>
     );
 }
