@@ -38,7 +38,8 @@ public class EventService {
         var exists = eventsRepository.findByEventName(events.getEventName());
         if(exists == null )  eventsRepository.save(events);
         else return new MessageResponse("Event name already exists!", MessageType.ERROR);
-        return new MessageResponse("Successfully added new event",MessageType.SUCCESS);
+        if(!events.getEventStartTime().isAfter(LocalDateTime.now())) return new MessageResponse("Event start date can't be a past date",MessageType.ERROR);
+        else return new MessageResponse("Successfully added new event",MessageType.SUCCESS);
     }
 
     public MessageResponse updateEvent(String eventName,Events events) {
@@ -57,7 +58,8 @@ public class EventService {
             var violationMessage = violations.collect(Collectors.toList());
             return new MessageResponse(violationMessage.get(0), MessageType.ERROR);
         }
-        return new MessageResponse("Successfully updated event", MessageType.SUCCESS);
+        if(!events.getEventStartTime().isAfter(LocalDateTime.now())) return new MessageResponse("Event start date can't be a past date",MessageType.ERROR);
+        else return new MessageResponse("Successfully updated event", MessageType.SUCCESS);
 
     }
 
@@ -103,7 +105,8 @@ public class EventService {
 
     public PeopleDto giveaway(String eventName) {
         var participants=eventsRepository.findByEventName(eventName).getParticipants().stream().collect(Collectors.toList());
-        int random= ThreadLocalRandom.current().nextInt(0,participants.size());
+        if(participants.size()==0) return null;
+        int random = ThreadLocalRandom.current().nextInt(0,participants.size());
         return peopleMapper.mapToPeopleDto(participants.get(random));
     }
 }

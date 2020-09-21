@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -16,6 +16,10 @@ import CustomBarChartApplicantCountWithButton from "./CustomBarChartApplicantCou
 import NewEventWithButton from "./NewEventWithButton";
 import LoginWithButton from "./LoginWithButton";
 import LogoutButton from "./LogoutButton";
+import {CheckBox} from "@material-ui/icons";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
 
 const useStyles = makeStyles({
     list: {
@@ -35,57 +39,77 @@ export default function SideBar(props) {
         right: false,
     });
 
+    const handleChange = (event) => {
+        props.setToggleWs(event.target.checked);
+    };
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
 
-        setState({ ...state, [anchor]: open });
+        setState({...state, [anchor]: open});
     };
 
     const list = (anchor) => (
         <div style={{
-            backgroundColor:"#E74344",
-            backgroundSize:"cover",
-            backgroundRepeat:"no-repeat",
-            backgroundPosition:"center",
-            paddingTop:"20px",
-            margin:"-10px",
-            height:"800px",
-            resize:"cover"
+            backgroundColor: "#E74344",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            paddingTop: "20px",
+            margin: "-10px",
+            height: "800px",
+            resize: "cover"
         }}
-            className={clsx(classes.list, {
-                [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-            })}
-            role="presentation"
+             className={clsx(classes.list, {
+                 [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+             })}
+             role="presentation"
         >
             {
                 props.loggedIn ?
-                <List>
-                    <ListItem>
-                        <NewEventWithButton/>
-                    </ListItem>
-                    <ListItem>
-                        <ListAllEventsAdminWithButton token={props.token}/>
-                    </ListItem>
-                    <ListItem>
-                        <CustomBarChartApplicantCountWithButton/>
-                    </ListItem>
-                </List> : null
+                    <List>
+                        <ListItem>
+                            <NewEventWithButton/>
+                        </ListItem>
+                        <ListItem>
+                            <ListAllEventsAdminWithButton token={props.token}/>
+                        </ListItem>
+                        <ListItem>
+                            <CustomBarChartApplicantCountWithButton/>
+                        </ListItem>
+                    </List> : null
             }
-            <Divider />
+            <Divider/>
             <List>
                 {
                     props.loggedIn ?
                         <ListItem>
                             <LogoutButton setToken={props.setToken} setLoggedIn={props.setLoggedIn}/>
                         </ListItem>
-                            :
+                        :
                         <ListItem>
                             <LoginWithButton
-                            setToken={props.setToken} token={props.token}
-                            setLoggedIn={props.setLoggedIn} loggedIn={props.loggedIn}
+                                setToken={props.setToken} token={props.token}
+                                setLoggedIn={props.setLoggedIn} loggedIn={props.loggedIn}
                             />
+                        </ListItem>
+
+                }
+                {
+                    !props.loggedIn ? null :
+                        <ListItem>
+                            <FormGroup row>
+                                <FormControlLabel control={<Checkbox
+                                    checked={props.toggleWs}
+                                    onChange={handleChange}
+                                    color="primary"
+                                    inputProps={{'aria-label': 'primary checkbox'}}
+                                />} label={"Show notifications when new people apply"}
+                                />
+
+                            </FormGroup>
                         </ListItem>
                 }
             </List>
@@ -96,7 +120,8 @@ export default function SideBar(props) {
         <div>
             {['right'].map((anchor) => (
                 <React.Fragment>
-                    <Button variant="contained" style={{float:"right",backgroundColor:"#E74344"}} onClick={toggleDrawer(anchor, true)}>ADMIN CONTROLS</Button>
+                    <Button variant="contained" style={{float: "right", backgroundColor: "#E74344"}}
+                            onClick={toggleDrawer(anchor, true)}>ADMIN CONTROLS</Button>
                     <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
                         {list(anchor)}
                     </Drawer>

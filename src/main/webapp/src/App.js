@@ -21,6 +21,7 @@ function App() {
     const [dataFromServer, setDataFromServer] = React.useState("");
     const [newPeoples, setNewPeoples] = React.useState([]);
     const [open, setOpen] = React.useState(false);
+    const [toggleWs, setToggleWs] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -28,6 +29,10 @@ function App() {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleClickWs = () => {
+        toggleWs?setToggleWs(false):setToggleWs(true);
+    };
+
 
 
     useEffect(() => {
@@ -43,7 +48,7 @@ function App() {
         setNewPeoples(prevState => {
             let temp = [...prevState];
             temp.push(dataFromServer);
-            if (dataFromServer != "" && loggedIn)
+            if (dataFromServer != "" && loggedIn && toggleWs)
                 handleClickOpen();
             return temp;
         })
@@ -70,6 +75,8 @@ function App() {
                 <SideBar
                     setToken={setToken} token={token}
                     setLoggedIn={setLoggedIn} loggedIn={loggedIn}
+                    toggleWs={toggleWs}
+                    setToggleWs={setToggleWs}
                 />
             </Grid>
         </Grid>
