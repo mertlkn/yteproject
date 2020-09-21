@@ -36,5 +36,9 @@ public class Events extends AbstractEntity{
     private Long quota;
     private Double latitude;
     private Double longitude;
+    @AssertTrue(message = "Start date can't be after end date")
+    public boolean isEndAfterStart() {
+        return eventEndTime.isAfter(eventStartTime);
+    }
 
 }
