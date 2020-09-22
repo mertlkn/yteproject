@@ -6,7 +6,11 @@ import 'package:com_mert_alkan_yte_project/ReusableCard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:com_mert_alkan_yte_project/DataBaseHelper.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:stomp_dart_client/stomp_frame.dart';
 import 'SuccessfulPage.dart';
+import 'package:com_mert_alkan_yte_project/MyIp.dart';
 
 class ApplyPage extends StatefulWidget {
   ApplyPage(this.eventName, this.eventStartTime, this.eventEndTime, this.lat,
@@ -105,7 +109,7 @@ class _ApplyPageState extends State<ApplyPage> {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MapsPage(widget.lng, widget.lat),
+                    builder: (context) => MapsPage(widget.lat, widget.lng),
                   ),
                 ),
               ),
@@ -126,6 +130,13 @@ class _ApplyPageState extends State<ApplyPage> {
       double lng,
       String eventStartTime,
       String eventEndTime,String email) async {
+    StompClient client = StompClient(
+        config: StompConfig.SockJS(
+            url: '$myIp/gs-guide-websocket',
+            onConnect: onConnectCallback
+        )
+    );
+    client.activate();
     await post('$myIp/applyUser/' + eventName,
         headers: {
           "content-type": "application/json",
@@ -138,6 +149,12 @@ class _ApplyPageState extends State<ApplyPage> {
           _save(eventName, eventStartTime, eventEndTime, lat, lng, name,
               surname, tcKimlikNo);
           get('$myIp/email?to='+email+"&eventName="+eventName+"&name="+name+"&surname="+surname+"&tcKimlikNo="+tcKimlikNo);
+          client.send(destination: '/app/hello', body: jsonEncode({
+            'eventName': eventName,
+            'name': name,
+            'surname': surname,
+            'tcKimlikNo': tcKimlikNo
+          }), headers: {});
           return Navigator.push(
             context,
             MaterialPageRoute(
@@ -145,11 +162,16 @@ class _ApplyPageState extends State<ApplyPage> {
                   SuccessfulPage(eventName, name, surname, tcKimlikNo),
             ),
           );
+          client.send(destination: '/foo/bar', body: 'Your message body', headers: {});
         } else
           return _showMyDialog(context, response['message']);
       },
     );
   }
+}
+
+void onConnectCallback(StompClient client, StompFrame connectFrame) {
+  print("connected");
 }
 
 Future<void> _showMyDialog(BuildContext context, String message) async {

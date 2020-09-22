@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:com_mert_alkan_yte_project/ApplyPage.dart';
 import 'package:com_mert_alkan_yte_project/DataBaseHelper.dart';
 import 'package:com_mert_alkan_yte_project/ReusableCard.dart';
+import 'package:com_mert_alkan_yte_project/MapsPage.dart';
 
 class ListMyEvents extends StatefulWidget {
   ListMyEvents({Key key, this.title}) : super(key: key);
@@ -33,94 +34,107 @@ class _ListMyEventsState extends State<ListMyEvents> {
 
   List<Widget> eventsList(List<Events> list, BuildContext context) {
     List<Widget> widgets = [];
-    list.forEach((e) => {
-          widgets.add(ReusableCard(
-            colour: Colors.blueGrey,
-            cardChild: Column(
+    list.forEach((e) =>
+    {
+      widgets.add(ReusableCard(
+        colour: Colors.blueGrey,
+        cardChild: Column(
+          children: [
+            Text(
+              "${e.eventName}",
+              style: TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Row(
               children: [
+                Expanded(
+                  child: Text(
+                    e.eventStartTime.toString().substring(0, 10) +
+                        "   " +
+                        e.eventStartTime.toString().substring(11),
+                    style: TextStyle(
+                      color: Color(0xFF24D876),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Text(
-                  "${e.eventName}",
+                  e.eventEndTime.toString().substring(0, 10) +
+                      "   " +
+                      e.eventStartTime.toString().substring(11),
                   style: TextStyle(
-                    fontSize: 30.0,
+                    color: Color(0xFF24D876),
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        e.eventStartTime.toString().substring(0, 10) +
-                            "   " +
-                            e.eventStartTime.toString().substring(11),
-                        style: TextStyle(
-                          color: Color(0xFF24D876),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      e.eventEndTime.toString().substring(0, 10) +
-                          "   " +
-                          e.eventStartTime.toString().substring(11),
-                      style: TextStyle(
-                        color: Color(0xFF24D876),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        e.name.toString(),
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        e.surname.toString(),
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      e.tcKimlikNo.toString(),
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(),
-                    ),
-                    FlatButton(
-                      color: Colors.red,
-                      onPressed: () {
-                        _delete(e.eventName, e.tcKimlikNo);
-                        initialize();
-                      },
-                      child: Text('delete'),
-                    )
-                  ],
-                )
               ],
             ),
-            onPress: () {},
-          )),
-        });
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    e.name.toString(),
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    e.surname.toString(),
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  e.tcKimlikNo.toString(),
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                FlatButton(
+                  color: Colors.blue,
+                  child: Row(
+                    children: [Icon(Icons.map), Text('Show on map')],
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapsPage(e.lat, e.lng),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SizedBox(),
+                ),
+                FlatButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    _delete(e.eventName, e.tcKimlikNo);
+                    initialize();
+                  },
+                  child: Text('delete'),
+                )
+              ],
+            )
+          ],
+        ),
+        onPress: () {},
+      )),
+    });
     return widgets;
   }
 

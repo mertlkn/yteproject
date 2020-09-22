@@ -31,6 +31,7 @@ dependencies:
   google_maps_flutter: ^0.5.31
   sqflite: ^1.0.0
   path_provider: ^0.4.1
+  stomp_dart_client: ^0.3.7
 
 dev_dependencies:
   flutter_test:
